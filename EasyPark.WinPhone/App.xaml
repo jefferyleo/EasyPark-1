@@ -9,7 +9,8 @@
     <!--Application Resources-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:EasyPark.WinPhone" x:Key="LocalizedStrings"/>
-
+        
+        <!-- Region Application Style -->
         <Color x:Key="AppThemeColor">Crimson</Color>
         <Color x:Key="AppStatusBarForegroundColor">White</Color>
 
@@ -22,6 +23,17 @@
         <SolidColorBrush x:Key="AppDisabledBackgroundBrush" Color="LightGray" />
         <SolidColorBrush x:Key="AppDisabledForegroundBrush" Color="DimGray" />
 
+        <!-- Panorama & PanoramaItem -->
+        <Style TargetType="phone:Panorama">
+            <Setter Property="Background" Value="{StaticResource AppBackgroundBrush}" />
+        </Style>
+        <DataTemplate x:Key="AppPanoramaItemHeaderTemplate">
+            <ContentPresenter>
+                <TextBlock Text="{Binding}" Foreground="Black" FontSize="50" Margin="0,0,0,0" />
+            </ContentPresenter>
+        </DataTemplate>
+        
+        <!-- TextBox -->
         <Style TargetType="TextBox">
             <Setter Property="Foreground" Value="{StaticResource AppForegroundBrush}" />
             <Setter Property="BorderBrush" Value="{StaticResource AppTextBoxBorderBrush}" />
@@ -79,7 +91,11 @@
             </Setter>
         </Style>
 
-        <!--<Style TargetType="PasswordBox">
+        <!-- PasswordBox -->
+        <ControlTemplate x:Key="PhoneDisabledPasswordBoxTemplate" TargetType="PasswordBox">
+            <Border x:Name="ContentElement" BorderThickness="0" Margin="{StaticResource PhonePasswordBoxInnerMargin}" Padding="{TemplateBinding Padding}"/>
+        </ControlTemplate>
+        <Style TargetType="PasswordBox">
             <Setter Property="Foreground" Value="{StaticResource AppForegroundBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource AppTextBoxBorderBrush}"/>
             <Setter Property="Template">
@@ -130,17 +146,9 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>-->
-
-        <Style TargetType="phone:Panorama">
-            <Setter Property="Background" Value="{StaticResource AppBackgroundBrush}" />
         </Style>
-        <DataTemplate x:Key="AppPanoramaItemHeaderTemplate">
-            <ContentPresenter>
-                <TextBlock Text="{Binding}" Foreground="Black" FontSize="50" Margin="0,0,0,0" />
-            </ContentPresenter>
-        </DataTemplate>
 
+        <!-- Button -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="{StaticResource AppThemeBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource AppThemeBrush}"/>
@@ -157,6 +165,9 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentContainer">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppButtonForegroundBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ButtonBackground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppButtonPressedBackgroundBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="ButtonBackground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppButtonPressedBackgroundBrush}"/>
@@ -186,9 +197,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
+        <!-- EndRegion -->
+        
+        <!-- Region Value Converters-->
         <valueConverters:NativeVisibilityValueConverter x:Key="Visibility"></valueConverters:NativeVisibilityValueConverter>
         <valueConverters:NativeInvertedVisibilityValueConverter x:Key="InvertedVisibility"></valueConverters:NativeInvertedVisibilityValueConverter>
+        <!-- EndRegion -->
+        
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
