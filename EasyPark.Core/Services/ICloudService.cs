@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using EasyPark.Core.Models;
@@ -10,8 +11,8 @@ namespace EasyPark.Core.Services
         MobileServiceUser CurrentUser { get; }
 
         // Web API
-        Task<bool> Login(string userName, string password);
-        Task SignUp();
+        Task Login(string userName, string password);
+        Task SignUp(string userName, string password, string firstName, string lastName, DateTime dateOfBirth, string eMail, string contactNumber);
 
         // User
         Task Update(User user);

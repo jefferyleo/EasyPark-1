@@ -10,8 +10,8 @@ namespace EasyPark.Core
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-				
-            RegisterAppStart<ViewModels.HomeViewModel>();
+
+            RegisterAppStart<ViewModels.LoginViewModel>();
         }
     }
 }

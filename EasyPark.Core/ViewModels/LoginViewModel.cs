@@ -1,3 +1,4 @@
+using System;
 using Cirrious.MvvmCross.ViewModels;
 using EasyPark.Core.Services;
 using Microsoft.WindowsAzure.MobileServices;
@@ -12,7 +13,6 @@ namespace EasyPark.Core.ViewModels
         public LoginViewModel(ICloudService service)
         {
             _service = service;
-            IsLoginSuccess = true;
         }
 
         private string _userName;
@@ -29,11 +29,11 @@ namespace EasyPark.Core.ViewModels
             set { _password = value; RaisePropertyChanged(() => Password); }
         }
 
-        private bool _isLoginSuccess;
-        public bool IsLoginSuccess
+        private string _errorMessage;
+        public string ErrorMessage
         {
-            get { return _isLoginSuccess; }
-            set { _isLoginSuccess = value; RaisePropertyChanged(() => IsLoginSuccess); }
+            get { return _errorMessage; }
+            set { _errorMessage = value; RaisePropertyChanged(() => ErrorMessage); }
         }
 
         MvxCommand _loginCommand;
@@ -48,10 +48,17 @@ namespace EasyPark.Core.ViewModels
 
         private async void DoLoginCommand()
         {
-            // To do LoginCommand()
-            IsLoginSuccess = await _service.Login(UserName, Password);
-            if (!IsLoginSuccess) return;
-            Close(this);
+            ErrorMessage = "";
+            try
+            {
+                await _service.Login(UserName, Password);
+                ShowViewModel<HomeViewModel>();
+                Close(this);
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         }
 
         MvxCommand _signUpCommand;
@@ -66,7 +73,7 @@ namespace EasyPark.Core.ViewModels
 
         private void DoSignUpCommand()
         {
-            // To do SignUpCommand()
+            ShowViewModel<SignUpViewModel>();
         }
     }
 }

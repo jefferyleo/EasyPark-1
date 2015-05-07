@@ -12,10 +12,12 @@
     Foreground="{StaticResource AppForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="{StaticResource AppThemeColor}" 
+    shell:SystemTray.ForegroundColor="{StaticResource AppStatusBarForegroundColor}">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="{StaticResource AppBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -23,21 +25,20 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Easy Park" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Contribute" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="Contribute" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="{StaticResource AppForegroundBrush}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <Image Height="200" Width="200" />
-                <ListBox ItemsSource="{Binding Cars}"/>
+                <Image Height="250" Width="250" />
+                <ListBox ItemsSource="{Binding Cars, Mode=TwoWay}"/>
                 <TextBlock Text="Car Park Lot"/>
-                <TextBox Text="{Binding CarParkLot}"/>
+                <TextBox Text="{Binding CarParkLot, Mode=TwoWay}"/>
                 <TextBlock Text="Car Park Floor"/>
-                <TextBox Text="{Binding CarParkFloor}"/>
+                <TextBox Text="{Binding CarParkFloor, Mode=TwoWay}"/>
                 <TextBlock Text="Car Park Slot"/>
-                <TextBox Text="{Binding CarParkSlot}"/>
+                <TextBox Text="{Binding CarParkSlot, Mode=TwoWay}"/>
                 <Button Content="Contribute" />
             </StackPanel>
         </Grid>

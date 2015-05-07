@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cirrious.MvvmCross.ViewModels;
+using EasyPark.Core.Models;
 
 namespace EasyPark.Core.ViewModels
 {
@@ -13,8 +14,8 @@ namespace EasyPark.Core.ViewModels
             set { _imageUrl = value; RaisePropertyChanged(() => ImageUrl); }
         }
 
-        private List<object> _cars;
-        public List<object> Cars
+        private List<Car> _cars;
+        public List<Car> Cars
         {
             get { return _cars; }
             set { _cars = value; RaisePropertyChanged(() => Cars); }

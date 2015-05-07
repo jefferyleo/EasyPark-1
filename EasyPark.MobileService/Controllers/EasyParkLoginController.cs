@@ -35,7 +35,7 @@ namespace EasyPark.MobileService.Controllers
                     return this.Request.CreateResponse(HttpStatusCode.OK, loginResult);
                 }
             }
-            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, "Invalid username or password");
+            return this.Request.CreateResponse(HttpStatusCode.Unauthorized, "Invalid username or password!");
         }
     }
 }

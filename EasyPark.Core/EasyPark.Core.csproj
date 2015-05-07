@@ -47,6 +47,8 @@
     <Compile Include="Requests\RegistrationRequest.cs" />
     <Compile Include="Services\CloudService.cs" />
     <Compile Include="Services\ICloudService.cs" />
+    <Compile Include="ViewModels\CarViewModel.cs" />
+    <Compile Include="ViewModels\Common.cs" />
     <Compile Include="ViewModels\ContributeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

@@ -22,18 +22,18 @@ namespace EasyPark.MobileService.Controllers
         {
             if (!Regex.IsMatch(registrationRequest.UserName, @"^[a-zA-Z0-9\._]{4,}$"))
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username (at least 4 chars, alphanumeric only)");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username (at least 4 chars, alphanumeric only)!");
             }
             else if (registrationRequest.Password.Length < 6)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password (at least 6 chars required)");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid password (at least 6 chars required)!");
             }
 
             EasyParkContext context = new EasyParkContext();
             User user = context.Users.SingleOrDefault(u => u.UserName == registrationRequest.UserName);
             if (user != null)
             {
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists!");
             }
             else
             {

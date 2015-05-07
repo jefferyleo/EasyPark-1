@@ -33,30 +33,40 @@ namespace EasyPark.Core.Services
             get { return this._currentUser; }
         }
 
-        public async Task<bool> Login(string userName, string password)
+        public async Task Login(string userName, string password)
         {
             LoginRequest loginRequest = new LoginRequest() { UserName = userName, Password = password };
             try
             {
-                var loginResult = await _service.InvokeApiAsync("EasyParkLogin", JToken.FromObject(loginRequest));
-                JObject json = JObject.Parse(loginResult.ToString());
-                _service.CurrentUser = new MobileServiceUser(json["user"]["userId"].ToString().Replace("EasyPark:", ""))
+                var loginResponse = await _service.InvokeApiAsync("EasyParkLogin", JToken.FromObject(loginRequest));
+                JObject loginResult = JObject.Parse(loginResponse.ToString());
+                _service.CurrentUser = new MobileServiceUser(loginResult["user"]["userId"].ToString().Replace("EasyPark:", ""))
                 {
-                    MobileServiceAuthenticationToken = json["authenticationToken"].ToString()
+                    MobileServiceAuthenticationToken = loginResult["authenticationToken"].ToString()
                 };
-                return true;
+                // return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return false;
+                // return false;
+                throw ex;
             }
         }
 
-        public async Task SignUp()
+        public async Task SignUp(string userName, string password, string firstName, string lastName, DateTime dateOfBirth, string eMail, string contactNumber)
         {
-            //RegistrationRequest registrationRequest = new RegistrationRequest() { UserName = userName, Password = password };
-            //HttpResponseMessage registrationResult = await _service.InvokeApiAsync<RegistrationRequest, HttpResponseMessage>("EasyParkRegistration", registrationRequest);
-            throw new NotImplementedException();
+            RegistrationRequest registrationRequest = new RegistrationRequest() { UserName = userName, Password = password, FirstName = firstName, LastName = lastName, DateOfBirth = dateOfBirth, EMail = eMail, Contact = contactNumber };
+            try
+            {
+                var registrationResponse = await _service.InvokeApiAsync("EasyParkRegistration", JToken.FromObject(registrationRequest));
+                // JObject registrationResult = JObject.Parse(registrationResponse.ToString());
+                // To do deserialize json
+                // return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task Update(User user)

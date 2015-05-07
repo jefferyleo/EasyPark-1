@@ -198,6 +198,8 @@
             </Setter>
         </Style>
         
+        <!-- CheckBox -->
+
         <!-- EndRegion -->
         
         <!-- Region Value Converters-->

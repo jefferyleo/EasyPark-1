@@ -10,17 +10,17 @@ namespace EasyPark.Core.ViewModels
         : MvxViewModel
     {
 
-        private readonly IMvxGeoLocationWatcher _watcher;
+        //private readonly IMvxGeoLocationWatcher _watcher;
+        private readonly IMvxLocationWatcher _watcher;
 
-        public HomeViewModel(ICloudService _service, IMvxGeoLocationWatcher watcher)
+        //public HomeViewModel(ICloudService _service, IMvxGeoLocationWatcher watcher)
+        public HomeViewModel(ICloudService service, IMvxLocationWatcher watcher)
         {
-            if (_service.CurrentUser == null)
-                ShowViewModel<LoginViewModel>();
-            else
-            {
-                _watcher = watcher;
-                _watcher.Start(new MvxGeoLocationOptions() { EnableHighAccuracy = true }, OnLocation, OnError);
-            }
+            //if (service.CurrentUser == null)
+            //    ShowViewModel<LoginViewModel>();
+            _watcher = watcher;
+            //_watcher.Start(new MvxGeoLocationOptions() {EnableHighAccuracy = true}, OnLocation, OnError);
+            _watcher.Start(new MvxLocationOptions(), OnLocation, OnError);
         }
 
         private void OnLocation(MvxGeoLocation location)
