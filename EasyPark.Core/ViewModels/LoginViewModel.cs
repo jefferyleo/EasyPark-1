@@ -8,11 +8,11 @@ namespace EasyPark.Core.ViewModels
     public class LoginViewModel 
 		: MvxViewModel
     {
-        private readonly ICloudService _service;
+        private readonly ICloudService _cloudService;
 
-        public LoginViewModel(ICloudService service)
+        public LoginViewModel(ICloudService cloudService)
         {
-            _service = service;
+            _cloudService = cloudService;
         }
 
         private string _userName;
@@ -51,9 +51,9 @@ namespace EasyPark.Core.ViewModels
             ErrorMessage = "";
             try
             {
-                await _service.Login(UserName, Password);
+                await _cloudService.Login(UserName, Password);
                 ShowViewModel<HomeViewModel>();
-                Close(this);
+                //Close(this);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 using System.Threading.Tasks;
 using EasyPark.Core.Models;
 using EasyPark.Core.Requests;
@@ -11,7 +10,7 @@ namespace EasyPark.Core.Services
 {
     public class CloudService : ICloudService
     {
-        private readonly MobileServiceClient _service = new MobileServiceClient(
+        private readonly MobileServiceClient _mobileService = new MobileServiceClient(
             @"https://easypark.azure-mobile.net/",
             @"RizdSWhhmucIswckIGIBcKmGelsWqe70");
 
@@ -21,10 +20,10 @@ namespace EasyPark.Core.Services
 
         public CloudService()
         {
-            _todoItems = _service.GetTable<TodoItem>();
-            _users = _service.GetTable<User>();
-            _cars = _service.GetTable<Car>();
-            _currentUser = _service.CurrentUser;
+            _todoItems = _mobileService.GetTable<TodoItem>();
+            _users = _mobileService.GetTable<User>();
+            _cars = _mobileService.GetTable<Car>();
+            _currentUser = _mobileService.CurrentUser;
         }
 
         private readonly MobileServiceUser _currentUser;
@@ -38,18 +37,16 @@ namespace EasyPark.Core.Services
             LoginRequest loginRequest = new LoginRequest() { UserName = userName, Password = password };
             try
             {
-                var loginResponse = await _service.InvokeApiAsync("EasyParkLogin", JToken.FromObject(loginRequest));
+                var loginResponse = await _mobileService.InvokeApiAsync("EasyParkLogin", JToken.FromObject(loginRequest));
                 JObject loginResult = JObject.Parse(loginResponse.ToString());
-                _service.CurrentUser = new MobileServiceUser(loginResult["user"]["userId"].ToString().Replace("EasyPark:", ""))
+                _mobileService.CurrentUser = new MobileServiceUser(loginResult["user"]["userId"].ToString().Replace("EasyPark:", ""))
                 {
                     MobileServiceAuthenticationToken = loginResult["authenticationToken"].ToString()
                 };
-                // return true;
             }
             catch (Exception ex)
             {
-                // return false;
-                throw ex;
+                throw;
             }
         }
 
@@ -58,14 +55,11 @@ namespace EasyPark.Core.Services
             RegistrationRequest registrationRequest = new RegistrationRequest() { UserName = userName, Password = password, FirstName = firstName, LastName = lastName, DateOfBirth = dateOfBirth, EMail = eMail, Contact = contactNumber };
             try
             {
-                var registrationResponse = await _service.InvokeApiAsync("EasyParkRegistration", JToken.FromObject(registrationRequest));
-                // JObject registrationResult = JObject.Parse(registrationResponse.ToString());
-                // To do deserialize json
-                // return true;
+                await _mobileService.InvokeApiAsync("EasyParkRegistration", JToken.FromObject(registrationRequest));
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -143,7 +137,6 @@ namespace EasyPark.Core.Services
             }
             catch (Exception ex)
             {
-
                 ReportError(ex);
             }
 
@@ -156,7 +149,7 @@ namespace EasyPark.Core.Services
             {
                 try
                 {
-                    var theTable = _service.GetTable<TodoItem>();
+                    var theTable = _mobileService.GetTable<TodoItem>();
 
                     foreach (TodoItem todoItem in entities)
                         await theTable.InsertAsync(todoItem);

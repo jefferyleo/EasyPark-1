@@ -7,12 +7,12 @@ namespace EasyPark.Core.ViewModels
     public class CarViewModel
         : MvxViewModel
     {
-        private readonly ICloudService _service;
         private Car _car;
+        private readonly ICloudService _cloudService;
 
-        public CarViewModel(ICloudService service)
+        public CarViewModel(ICloudService cloudService)
         {
-            _service = service;
+            _cloudService = cloudService;
         }
 
         private Action _action;
@@ -90,14 +90,14 @@ namespace EasyPark.Core.ViewModels
                     CarPlateNumber = CarPlateNumber,
                     Color = Color,
                     ImageUrl = ImageUrl,
-                    UserId = _service.CurrentUser.UserId
+                    UserId = _cloudService.CurrentUser.UserId
                 };
 
-                _service.Insert(_car);
+                _cloudService.Insert(_car);
             }
             else
             {
-                _service.Update(_car);
+                _cloudService.Update(_car);
             }
         }
     }

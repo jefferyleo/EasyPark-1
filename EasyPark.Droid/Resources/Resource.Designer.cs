@@ -34,6 +34,9 @@ namespace EasyPark.Droid
 		public partial class Attribute
 		{
 			
+			// aapt resource value: 0x7f010005
+			public const int GroupItemTemplate = 2130771973;
+			
 			// aapt resource value: 0x7f010000
 			public const int MvxBind = 2130771968;
 			
@@ -46,8 +49,8 @@ namespace EasyPark.Droid
 			// aapt resource value: 0x7f010001
 			public const int MvxLang = 2130771969;
 			
-			// aapt resource value: 0x7f010005
-			public const int MvxSource = 2130771973;
+			// aapt resource value: 0x7f010006
+			public const int MvxSource = 2130771974;
 			
 			// aapt resource value: 0x7f010002
 			public const int MvxTemplate = 2130771970;
@@ -176,8 +179,14 @@ namespace EasyPark.Droid
 			// aapt resource value: 0
 			public const int MvxControl_MvxTemplate = 0;
 			
-			public static int[] MvxImageView = new int[] {
+			public static int[] MvxExpandableListView = new int[] {
 					2130771973};
+			
+			// aapt resource value: 0
+			public const int MvxExpandableListView_GroupItemTemplate = 0;
+			
+			public static int[] MvxImageView = new int[] {
+					2130771974};
 			
 			// aapt resource value: 0
 			public const int MvxImageView_MvxSource = 0;

@@ -8,11 +8,11 @@ namespace EasyPark.Core.ViewModels
     public class SignUpViewModel
         : MvxViewModel
     {
-        private readonly ICloudService _service;
+        private readonly ICloudService _cloudService;
 
-        public SignUpViewModel(ICloudService service)
+        public SignUpViewModel(ICloudService cloudService)
         {
-            _service = service;
+            _cloudService = cloudService;
         }
 
         private string _firstName;
@@ -140,7 +140,7 @@ namespace EasyPark.Core.ViewModels
             if (ErrorMessage != "") return;
             try
             {
-                await _service.SignUp(UserName, Password, FirstName, LastName, dateOfBirth, EMail, Contact);
+                await _cloudService.SignUp(UserName, Password, FirstName, LastName, dateOfBirth, EMail, Contact);
                 ErrorMessage = "Register successfully!";
                 await Task.Delay(500);
                 Close(this);

@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Models\Car.cs" />
+    <Compile Include="Models\PlaceSearchItem.cs" />
+    <Compile Include="Models\PlaceSearchResult.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,6 +49,10 @@
     <Compile Include="Requests\RegistrationRequest.cs" />
     <Compile Include="Services\CloudService.cs" />
     <Compile Include="Services\ICloudService.cs" />
+    <Compile Include="Services\IPlaceService.cs" />
+    <Compile Include="Services\ISimpleRestService.cs" />
+    <Compile Include="Services\PlaceService.cs" />
+    <Compile Include="Services\SimpleRestService.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
     <Compile Include="ViewModels\Common.cs" />
     <Compile Include="ViewModels\ContributeViewModel.cs" />
@@ -63,6 +69,9 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Localization">
       <HintPath>..\packages\MvvmCross.HotTuna.CrossCore.3.5.1\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.Localization.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Plugins.Json">
+      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Json.3.5.1\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.Plugins.Json.dll</HintPath>
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Location">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Location.3.5.1\lib\portable-win+net45+wp8+win8+wpa81\Cirrious.MvvmCross.Plugins.Location.dll</HintPath>
@@ -87,7 +96,12 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EasyPark.Timer\EasyPark.Timer.csproj">
+      <Project>{b8d0386b-ede1-4732-a81f-d5cdefca27ae}</Project>
+      <Name>EasyPark.Timer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
