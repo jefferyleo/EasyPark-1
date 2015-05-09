@@ -13,6 +13,22 @@ namespace EasyPark.Core.ViewModels
         public LoginViewModel(ICloudService cloudService)
         {
             _cloudService = cloudService;
+            StatusText = "Easy Park";
+            IsLoading = false;
+        }
+
+        private string _statusText;
+        public string StatusText
+        {
+            get { return _statusText; }
+            set { _statusText = value; RaisePropertyChanged(() => StatusText); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
         private string _userName;
@@ -51,7 +67,11 @@ namespace EasyPark.Core.ViewModels
             ErrorMessage = "";
             try
             {
+                StatusText = "Logging in...";
+                IsLoading = true;
                 await _cloudService.Login(UserName, Password);
+                StatusText = "Easy Park";
+                IsLoading = false;
                 ShowViewModel<HomeViewModel>();
                 //Close(this);
             }

@@ -24,6 +24,22 @@ namespace EasyPark.Core.ViewModels
             _placeService = placeService;
             _locationWatcher = locationWatcher;
             _locationWatcher.Start(new MvxLocationOptions(), OnLocation, OnError);
+            StatusText = "Easy Park";
+            IsLoading = false;
+        }
+
+        private string _statusText;
+        public string StatusText
+        {
+            get { return _statusText; }
+            set { _statusText = value; RaisePropertyChanged(() => StatusText); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
         private double _lat;
@@ -38,13 +54,6 @@ namespace EasyPark.Core.ViewModels
         {
             get { return _lng; }
             set { _lng = value; RaisePropertyChanged(() => Lng); }
-        }
-
-        private bool _isLoading;
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
         private string _searchKey;
@@ -76,13 +85,14 @@ namespace EasyPark.Core.ViewModels
 
         private void ScheduleUpdate()
         {
-            lock (_lockObject)
-            {
-                if (_timer == null)
-                    _timer = new PCLTimer(OnTimerTick, null, TimeSpan.FromSeconds(1.0), TimeSpan.Zero);
-                else
-                    _timer.Change(TimeSpan.FromSeconds(1.0), TimeSpan.Zero);
-            }
+            if(SearchKey != "")
+                lock (_lockObject)
+                {
+                    if (_timer == null)
+                        _timer = new PCLTimer(OnTimerTick, null, TimeSpan.FromSeconds(1.0), TimeSpan.Zero);
+                    else
+                        _timer.Change(TimeSpan.FromSeconds(1.0), TimeSpan.Zero);
+                }
         }
 
         private void OnTimerTick(object state)
@@ -97,16 +107,21 @@ namespace EasyPark.Core.ViewModels
 
         private void Update()
         {
+            StatusText = "Searching...";
             IsLoading = true;
             _placeService.StartSearchAsync(
                 SearchKey,
+                Lat,
+                Lng,
                 result =>
                 {
+                    StatusText = "Easy Park";
                     IsLoading = false;
-                    Results = result.PlaceSearchItems;
+                    Results = result.results;
                 },
                 error =>
                 {
+                    StatusText = "Easy Park";
                     IsLoading = false;
                 }
             );

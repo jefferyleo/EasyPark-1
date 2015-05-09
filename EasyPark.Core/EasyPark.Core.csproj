@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Models\Car.cs" />
-    <Compile Include="Models\PlaceSearchItem.cs" />
     <Compile Include="Models\PlaceSearchResult.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\User.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="Services\ISimpleRestService.cs" />
     <Compile Include="Services\PlaceService.cs" />
     <Compile Include="Services\SimpleRestService.cs" />
+    <Compile Include="ValueConverters\InverseBoolValueConverter.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
     <Compile Include="ViewModels\Common.cs" />
     <Compile Include="ViewModels\ContributeViewModel.cs" />

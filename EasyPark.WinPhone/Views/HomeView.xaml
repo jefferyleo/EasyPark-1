@@ -14,14 +14,23 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.BackgroundColor="{StaticResource AppThemeColor}" 
+    shell:SystemTray.ForegroundColor="{StaticResource AppStatusBarForegroundColor}">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator Text="{Binding StatusText}"
+                                 IsIndeterminate="{Binding IsLoading}"
+                                 IsVisible="True"
+                                 Value="0" />
+    </shell:SystemTray.ProgressIndicator>
+    
     <views:MvxPhonePage.Resources>
         <DataTemplate x:Key="PlaceSearchItemTemplate">
             <Grid Margin="6">
                 <StackPanel Margin="12">
-                    <TextBlock FontSize="40" Text="{Binding name}" Foreground="Black"></TextBlock>
-                    <TextBlock FontSize="24" Text="{Binding vicinity}" Foreground="Black"></TextBlock>
+                    <TextBlock FontSize="40" Text="{Binding name}" />
+                    <TextBlock FontSize="24" Text="{Binding formatted_address}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -38,11 +47,15 @@
 
             <phone:PanoramaItem Header="location" HeaderTemplate="{StaticResource AppPanoramaItemHeaderTemplate}">
                 <Grid x:Name="ContentPanel2" Margin="12,0,12,0">
-                    <StackPanel Opacity="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Opacity="0">
                         <TextBox Name="Lat" Text="{Binding Lat}" Foreground="Black" TextChanged ="UpdateLocation" IsEnabled="False" />
                         <TextBox Name="Lng" Text="{Binding Lng}" Foreground="Black" TextChanged="UpdateLocation"  IsEnabled="False" />
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel Grid.Row="0">
                         <maps:Map Name="MyMap"
                                 LandmarksEnabled="True"
                                 ZoomLevel="16"
@@ -51,13 +64,11 @@
                                 IsEnabled="False" />
                         <TextBox Text="{Binding SearchKey, Mode=TwoWay}"
                                  binding:TextBinding.UpdateSourceOnChange="True" />
-                        <ProgressBar IsIndeterminate="True"
-                                 Visibility="{Binding IsLoading, Converter={StaticResource Visibility}}" />
-                        <ListBox ItemsSource="{Binding Results}"
+                    </StackPanel>
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Results}"
                                  Foreground="Black"
                                  ItemTemplate="{StaticResource PlaceSearchItemTemplate}"
-                                 Visibility="{Binding IsLoading, Converter={StaticResource InvertedVisibility}}" />
-                    </StackPanel>
+                                 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBool}}" />
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>

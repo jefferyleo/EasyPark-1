@@ -209,6 +209,7 @@
         <!-- Region Value Converters-->
         <valueConverters:NativeVisibilityValueConverter x:Key="Visibility"></valueConverters:NativeVisibilityValueConverter>
         <valueConverters:NativeInvertedVisibilityValueConverter x:Key="InvertedVisibility"></valueConverters:NativeInvertedVisibilityValueConverter>
+        <valueConverters:NativeInverseBoolValueConverter x:Key="InverseBool"></valueConverters:NativeInverseBoolValueConverter>
         <!-- EndRegion -->
         
     </Application.Resources>
