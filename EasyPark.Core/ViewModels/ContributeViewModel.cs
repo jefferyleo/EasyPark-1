@@ -1,12 +1,36 @@
 ﻿using System.Collections.Generic;
 using Cirrious.MvvmCross.ViewModels;
 using EasyPark.Core.Models;
+using EasyPark.Core.Services;
 
 namespace EasyPark.Core.ViewModels
 {
     public class ContributeViewModel
         : MvxViewModel
     {
+        private readonly ICloudService _cloudService;
+
+        public ContributeViewModel(ICloudService cloudService)
+        {
+            _cloudService = cloudService;
+            StatusText = "Easy Park";
+            IsLoading = false;
+        }
+
+        private string _statusText;
+        public string StatusText
+        {
+            get { return _statusText; }
+            set { _statusText = value; RaisePropertyChanged(() => StatusText); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
+        }
+
         private string _imageUrl;
         public string ImageUrl
         {

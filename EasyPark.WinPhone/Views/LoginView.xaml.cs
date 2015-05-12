@@ -1,10 +1,12 @@
+using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.WindowsPhone.Views;
-using Microsoft.Phone.Shell;
+using EasyPark.Core.ViewModels;
 
 namespace EasyPark.WinPhone.Views
 {
     public partial class LoginView : MvxPhonePage
     {
+
         public LoginView()
         {
             InitializeComponent();

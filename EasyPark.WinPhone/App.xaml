@@ -26,6 +26,7 @@
         <!-- Panorama & PanoramaItem -->
         <Style TargetType="phone:Panorama">
             <Setter Property="Background" Value="{StaticResource AppBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource AppForegroundBrush}" />
         </Style>
         <DataTemplate x:Key="AppPanoramaItemHeaderTemplate">
             <ContentPresenter>

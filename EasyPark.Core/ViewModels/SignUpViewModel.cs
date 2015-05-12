@@ -13,6 +13,22 @@ namespace EasyPark.Core.ViewModels
         public SignUpViewModel(ICloudService cloudService)
         {
             _cloudService = cloudService;
+            StatusText = "Easy Park";
+            IsLoading = false;
+        }
+
+        private string _statusText;
+        public string StatusText
+        {
+            get { return _statusText; }
+            set { _statusText = value; RaisePropertyChanged(() => StatusText); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
         private string _firstName;
@@ -140,9 +156,12 @@ namespace EasyPark.Core.ViewModels
             if (ErrorMessage != "") return;
             try
             {
+                StatusText = "Signing up...";
+                IsLoading = true;
                 await _cloudService.SignUp(UserName, Password, FirstName, LastName, dateOfBirth, EMail, Contact);
                 ErrorMessage = "Register successfully!";
-                await Task.Delay(500);
+                StatusText = "Easy Park";
+                IsLoading = false;
                 Close(this);
             }
             catch (Exception ex)

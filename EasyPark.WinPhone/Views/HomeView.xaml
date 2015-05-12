@@ -11,7 +11,7 @@
     xmlns:binding="clr-namespace:Coding4Fun.Toolkit.Controls.Binding;assembly=Coding4Fun.Toolkit.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
+    Foreground="{StaticResource AppForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
@@ -26,6 +26,14 @@
     </shell:SystemTray.ProgressIndicator>
     
     <views:MvxPhonePage.Resources>
+        <DataTemplate x:Key="CarTemplate">
+            <Grid Margin="6">
+                <StackPanel Margin="12">
+                    <TextBlock FontSize="40" Text="{Binding name}" />
+                    <TextBlock FontSize="24" Text="{Binding formatted_address}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="PlaceSearchItemTemplate">
             <Grid Margin="6">
                 <StackPanel Margin="12">
@@ -41,7 +49,33 @@
         <phone:Panorama Margin="0, 0, 0, 0">
             <phone:PanoramaItem Header="cars" HeaderTemplate="{StaticResource AppPanoramaItemHeaderTemplate}">
                 <Grid x:Name="ContentPanel1" Margin="12,0,12,0">
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*" />
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Current Point: "/>
+                                <TextBlock Text="{Binding CurrentPoint}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <TextBlock Text="Ratio: "/>
+                                <TextBlock Text="{Binding Ratio}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Button Content="+"
+                                Command="{Binding AddCarCommand}"
+                                Width="72"
+                                HorizontalAlignment="Right"/>
+                    </StackPanel>
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Cars}"
+                             ItemTemplate="{StaticResource CarTemplate}" />
                 </Grid>
             </phone:PanoramaItem>
 
@@ -52,23 +86,23 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Opacity="0">
-                        <TextBox Name="Lat" Text="{Binding Lat}" Foreground="Black" TextChanged ="UpdateLocation" IsEnabled="False" />
-                        <TextBox Name="Lng" Text="{Binding Lng}" Foreground="Black" TextChanged="UpdateLocation"  IsEnabled="False" />
+                        <TextBox Name="Lat" Text="{Binding Lat}" TextChanged ="UpdateLocation" IsEnabled="False" />
+                        <TextBox Name="Lng" Text="{Binding Lng}" TextChanged ="UpdateLocation" IsEnabled="False" />
                     </StackPanel>
                     <StackPanel Grid.Row="0">
                         <maps:Map Name="MyMap"
-                                LandmarksEnabled="True"
-                                ZoomLevel="16"
-                                Margin="0,0,0,-72"
-                                Height="162"
-                                IsEnabled="False" />
+                                  LandmarksEnabled="True"
+                                  ZoomLevel="16"
+                                  Margin="0,0,0,-72"
+                                  Height="162"
+                                  IsEnabled="False" />
                         <TextBox Text="{Binding SearchKey, Mode=TwoWay}"
                                  binding:TextBinding.UpdateSourceOnChange="True" />
                     </StackPanel>
-                    <ListBox Grid.Row="1" ItemsSource="{Binding Results}"
-                                 Foreground="Black"
-                                 ItemTemplate="{StaticResource PlaceSearchItemTemplate}"
-                                 IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBool}}" />
+                    <ListBox Grid.Row="1"
+                             ItemsSource="{Binding Results}"
+                             ItemTemplate="{StaticResource PlaceSearchItemTemplate}"
+                             IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBool}}" />
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>

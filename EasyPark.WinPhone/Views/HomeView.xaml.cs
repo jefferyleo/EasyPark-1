@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Device.Location;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.WindowsPhone.Views;
-using EasyPark.Core.ViewModels;
 using Microsoft.Phone.Maps.Controls;
 using Microsoft.Phone.Shell;
 
@@ -17,9 +15,10 @@ namespace EasyPark.WinPhone.Views
         public HomeView()
         {
             InitializeComponent();
+            ApplicationBar = ((ApplicationBar)this.Resources["CarAppBar"]);
         }
 
-        private void UpdateLocation(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void UpdateLocation(object sender, TextChangedEventArgs e)
         {
             GeoCoordinate currentLocation = new GeoCoordinate(Double.Parse(Lat.Text), Double.Parse(Lng.Text));
             Ellipse currentLocationOuterBorder = new Ellipse()

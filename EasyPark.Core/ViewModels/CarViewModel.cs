@@ -7,12 +7,35 @@ namespace EasyPark.Core.ViewModels
     public class CarViewModel
         : MvxViewModel
     {
-        private Car _car;
         private readonly ICloudService _cloudService;
 
         public CarViewModel(ICloudService cloudService)
         {
             _cloudService = cloudService;
+            StatusText = "Easy Park";
+            IsLoading = false;
+            Action = Car != null ? Action.Update : Action.Create;
+        }
+
+        private string _statusText;
+        public string StatusText
+        {
+            get { return _statusText; }
+            set { _statusText = value; RaisePropertyChanged(() => StatusText); }
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
+        }
+
+        private Car _car;
+        public Car Car
+        {
+            get { return _car; }
+            set { _car = value; RaisePropertyChanged(() => Car); }
         }
 
         private Action _action;
@@ -69,17 +92,17 @@ namespace EasyPark.Core.ViewModels
             }
         }
 
-        MvxCommand _insertUpdateCar;
-        public System.Windows.Input.ICommand InsertUpdateCar
+        MvxCommand _insertUpdateCarCommand;
+        public System.Windows.Input.ICommand InsertUpdateCarCommand
         {
             get
             {
-                _insertUpdateCar = _insertUpdateCar ?? new MvxCommand(DoInsertUpdateCar);
-                return _insertUpdateCar;
+                _insertUpdateCarCommand = _insertUpdateCarCommand ?? new MvxCommand(DoInsertUpdateCarCommand);
+                return _insertUpdateCarCommand;
             }
         }
 
-        private void DoInsertUpdateCar()
+        private void DoInsertUpdateCarCommand()
         {
             if (Action == Action.Create)
             {

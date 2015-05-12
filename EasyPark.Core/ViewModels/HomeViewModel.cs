@@ -42,6 +42,27 @@ namespace EasyPark.Core.ViewModels
             set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
+        private int _currentPoint;
+        public int CurrentPoint
+        {
+            get { return _currentPoint; }
+            set { _currentPoint = value; RaisePropertyChanged(() => CurrentPoint); }
+        }
+
+        private string _ratio;
+        public string Ratio
+        {
+            get { return _ratio; }
+            set { _ratio = value; RaisePropertyChanged(() => Ratio); }
+        }
+
+        private List<Car> _cars;
+        public List<Car> Cars
+        {
+            get { return _cars; }
+            set { _cars = value; RaisePropertyChanged(() => Cars); }
+        }
+
         private double _lat;
         public double Lat
         {
@@ -125,6 +146,21 @@ namespace EasyPark.Core.ViewModels
                     IsLoading = false;
                 }
             );
+        }
+
+        MvxCommand _addCarCommand;
+        public System.Windows.Input.ICommand AddCarCommand
+        {
+            get
+            {
+                _addCarCommand = _addCarCommand ?? new MvxCommand(DoAddCarCommand);
+                return _addCarCommand;
+            }
+        }
+
+        private void DoAddCarCommand()
+        {
+            ShowViewModel<CarViewModel>();
         }
     }
 }
