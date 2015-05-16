@@ -23,8 +23,9 @@ namespace EasyPark.Core.ViewModels
             _cloudService = cloudService;
             _placeService = placeService;
             _locationWatcher = locationWatcher;
-            _locationWatcher.Start(new MvxLocationOptions(), OnLocation, OnError);
-            Update();
+            if(!_locationWatcher.Started)
+                _locationWatcher.Start(new MvxLocationOptions(), OnLocation, OnError);
+            InitViewModel();
             StatusText = "Easy Park";
             IsLoading = false;
         }
@@ -99,7 +100,7 @@ namespace EasyPark.Core.ViewModels
             set { _results = value; RaisePropertyChanged(() => Results); }
         }
 
-        private async void Update()
+        private async void InitViewModel()
         {
             Cars = await _cloudService.ReadAllCar(_cloudService.User.Id);
             ParkPoint = _cloudService.User.ParkPoint;

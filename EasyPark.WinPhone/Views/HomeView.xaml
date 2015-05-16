@@ -28,10 +28,21 @@
     <views:MvxPhonePage.Resources>
         <DataTemplate x:Key="CarTemplate">
             <Grid Margin="6">
-                <StackPanel Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                        Source="{Binding PictureBytes, Mode=TwoWay, Converter={StaticResource BytesToImage}}"
+                        Height="100"
+                        Width="100" />
+                <StackPanel Grid.Column="1">
                     <TextBlock FontSize="40" Text="{Binding CarPlateNumber}" />
-                    <TextBlock FontSize="24" Text="{Binding Manufacturer}" />
-                    <TextBlock FontSize="24" Text="{Binding Model}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="24" Text="{Binding Manufacturer}" />
+                        <TextBlock FontSize="24" Text=" " />
+                        <TextBlock FontSize="24" Text="{Binding Model}" />
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </DataTemplate>
