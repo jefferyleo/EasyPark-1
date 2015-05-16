@@ -6,7 +6,8 @@ namespace EasyPark.Core.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "firstname")]
         public string FirstName { get; set; }
@@ -28,6 +29,18 @@ namespace EasyPark.Core.Models
 
         [JsonProperty(PropertyName = "contact")]
         public string Contact { get; set; }
+
+        [JsonProperty(PropertyName = "parkpoint")]
+        public int ParkPoint { get; set; }
+
+        [JsonProperty(PropertyName = "successdealcount")]
+        public int SuccessDealCount { get; set; }
+
+        [JsonProperty(PropertyName = "faildealcount")]
+        public int FailDealCount { get; set; }
+
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
 
         [JsonProperty(PropertyName = "cars")]
         public virtual ICollection<Car> Cars { get; set; }

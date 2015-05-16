@@ -26,9 +26,12 @@ namespace EasyPark.MobileService.Models
         {
         }
 
-        public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Contribute> Contributes { get; set; }
+        public DbSet<Deal> Deals { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -41,6 +44,13 @@ namespace EasyPark.MobileService.Models
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
+
+            modelBuilder.Entity<Deal>()
+                .HasOptional(d => d.Contribute)
+                .WithOptionalDependent(c => c.Deal);
+            modelBuilder.Entity<Deal>()
+                .HasOptional(d => d.Request)
+                .WithOptionalDependent(r => r.Deal);
 
             base.OnModelCreating(modelBuilder);
         }

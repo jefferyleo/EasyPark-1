@@ -13,7 +13,7 @@ namespace EasyPark.MobileService.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201504280314179_Initial"; }
+            get { return "201505151527383_Initial"; }
         }
         
         string IMigrationMetadata.Source

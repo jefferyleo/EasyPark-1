@@ -194,15 +194,17 @@
     <Compile Include="Controllers\CarController.cs" />
     <Compile Include="Controllers\EasyParkLoginController.cs" />
     <Compile Include="Controllers\EasyParkRegistrationController.cs" />
-    <Compile Include="Controllers\TodoItemController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataObjects\Car.cs" />
-    <Compile Include="DataObjects\TodoItem.cs" />
+    <Compile Include="DataObjects\Chat.cs" />
+    <Compile Include="DataObjects\Contribute.cs" />
+    <Compile Include="DataObjects\Deal.cs" />
+    <Compile Include="DataObjects\Request.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="Helpers\EasyParkLoginProvider.cs" />
-    <Compile Include="Migrations\201504280314179_Initial.cs" />
-    <Compile Include="Migrations\201504280314179_Initial.Designer.cs">
-      <DependentUpon>201504280314179_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201505151527383_Initial.cs" />
+    <Compile Include="Migrations\201505151527383_Initial.Designer.cs">
+      <DependentUpon>201505151527383_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EasyParkContext.cs" />
@@ -231,8 +233,8 @@
     <None Include="Properties\PublishProfiles\mobile-EasyPark.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504280314179_Initial.resx">
-      <DependentUpon>201504280314179_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505151527383_Initial.resx">
+      <DependentUpon>201505151527383_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

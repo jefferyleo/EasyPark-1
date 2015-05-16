@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using EasyPark.Core.Models;
@@ -12,24 +13,21 @@ namespace EasyPark.Core.Services
     {
         private readonly MobileServiceClient _mobileService = new MobileServiceClient(
             @"https://easypark.azure-mobile.net/",
-            @"RizdSWhhmucIswckIGIBcKmGelsWqe70");
-
-        private IMobileServiceTable<TodoItem> _todoItems;
+            @"wFEkMHIyfvKbdySqvgmMVNxHrLuyzC88");
         private IMobileServiceTable<User> _users;
         private IMobileServiceTable<Car> _cars;
 
         public CloudService()
         {
-            _todoItems = _mobileService.GetTable<TodoItem>();
             _users = _mobileService.GetTable<User>();
             _cars = _mobileService.GetTable<Car>();
-            _currentUser = _mobileService.CurrentUser;
         }
 
-        private readonly MobileServiceUser _currentUser;
+        public User User { get; set; }
+
         public MobileServiceUser CurrentUser
         {
-            get { return this._currentUser; }
+            get { return _mobileService.CurrentUser; }
         }
 
         public async Task Login(string userName, string password)
@@ -43,6 +41,7 @@ namespace EasyPark.Core.Services
                 {
                     MobileServiceAuthenticationToken = loginResult["authenticationToken"].ToString()
                 };
+                User = await ReadUser(loginResult["user"]["userId"].ToString().Replace("EasyPark:", ""));
             }
             catch (Exception ex)
             {
@@ -71,8 +70,30 @@ namespace EasyPark.Core.Services
             }
             catch (Exception e)
             {
-                ReportError(e);
+                throw;
             }
+        }
+
+        public async Task<User> ReadUser(string id)
+        {
+            User user = null;
+
+            try
+            {
+                //List<User> tempUsers = await _users
+                //    .Where(u => u.Id == id)
+                //    .Take(1)
+                //    .ToListAsync();
+                //user = tempUsers[0];
+
+                user = await _users.LookupAsync(id);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return user;
         }
 
         public async Task Insert(Car car)
@@ -83,24 +104,48 @@ namespace EasyPark.Core.Services
             }
             catch (Exception e)
             {
-                ReportError(e);
+                throw;
             }
         }
 
-        public async Task<Car> Read(string id)
+        public async Task<Car> ReadCar(string id)
         {
             Car car = null;
 
             try
             {
+                //List<Car> tempCars = await _cars
+                //    .Where(c => c.Id == id)
+                //    .Take(1)
+                //    .ToListAsync();
+                //car = tempCars[0];
+
                 car = await _cars.LookupAsync(id);
             }
             catch (Exception e)
             {
-                ReportError(e);
+                throw;
             }
 
             return car;
+        }
+
+        public async Task<List<Car>> ReadAllCar(string userId)
+        {
+            List<Car> cars = new List<Car>();
+            try
+            {
+                cars = await _cars
+                    .Where(c => c.UserId == userId)
+                    .ToListAsync();
+                //cars = await _mobileService.InvokeApiAsync("EasyParkRegistration", JToken.FromObject(registrationRequest));
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return cars;
         }
 
         public async Task Update(Car car)
@@ -111,7 +156,7 @@ namespace EasyPark.Core.Services
             }
             catch (Exception e)
             {
-                ReportError(e);
+                throw;
             }
         }
 
@@ -123,43 +168,43 @@ namespace EasyPark.Core.Services
             }
             catch (Exception e)
             {
-                ReportError(e);
+                throw;
             }
         }
 
-        public async Task<ObservableCollection<TodoItem>> GetAll()
-        {
-            ObservableCollection<TodoItem> todoItems = new ObservableCollection<TodoItem>();
+        //public async Task<ObservableCollection<TodoItem>> GetAll()
+        //{
+        //    ObservableCollection<TodoItem> todoItems = new ObservableCollection<TodoItem>();
 
-            try
-            {
-                todoItems = await _todoItems.ToCollectionAsync<TodoItem>();
-            }
-            catch (Exception ex)
-            {
-                ReportError(ex);
-            }
+        //    try
+        //    {
+        //        todoItems = await _todoItems.ToCollectionAsync<TodoItem>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ReportError(ex);
+        //    }
 
-            return todoItems;
-        }
+        //    return todoItems;
+        //}
 
-        public async Task SaveAll(ObservableCollection<TodoItem> entities)
-        {
-            if (entities != null && entities.Count > 0)
-            {
-                try
-                {
-                    var theTable = _mobileService.GetTable<TodoItem>();
+        //public async Task SaveAll(ObservableCollection<TodoItem> entities)
+        //{
+        //    if (entities != null && entities.Count > 0)
+        //    {
+        //        try
+        //        {
+        //            var theTable = _mobileService.GetTable<TodoItem>();
 
-                    foreach (TodoItem todoItem in entities)
-                        await theTable.InsertAsync(todoItem);
-                }
-                catch (Exception ex)
-                {
-                    ReportError(ex);
-                }
-            }
-        }
+        //            foreach (TodoItem todoItem in entities)
+        //                await theTable.InsertAsync(todoItem);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ReportError(ex);
+        //        }
+        //    }
+        //}
 
         private void ReportError(Exception exception)
         {

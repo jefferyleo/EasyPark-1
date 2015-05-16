@@ -1,4 +1,5 @@
 ﻿using Cirrious.CrossCore.WindowsPhone.Converters;
+using Cirrious.MvvmCross.Plugins.PictureChooser.WindowsPhone;
 using Cirrious.MvvmCross.Plugins.Visibility;
 using EasyPark.Core.ValueConverters;
 
@@ -11,6 +12,9 @@ namespace EasyPark.WinPhone.ValueConverters
     {
     }
     public class NativeInverseBoolValueConverter : MvxNativeValueConverter<InverseBoolValueConverter>
+    {
+    }
+    public class NativeInMemoryImageValueConverter : MvxNativeValueConverter<MvxInMemoryImageValueConverter>
     {
     }
 }

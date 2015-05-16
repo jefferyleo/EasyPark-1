@@ -16,14 +16,6 @@ namespace EasyPark.MobileService.Migrations
 
         protected override void Seed(EasyParkContext context)
         {
-            //List<TodoItem> todoItems = new List<TodoItem>
-            //{
-            //    new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-            //    new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
-            //};
-            //todoItems.ForEach(u => context.TodoItems.AddOrUpdate(i => i.Text, u));
-            //context.SaveChanges();
-
             //List<User> users = new List<User>
             //{
             //    new User { Id = Guid.NewGuid().ToString(), FirstName = "Chris", LastName = "Lui", DateOfBirth = DateTime.Parse("1993/10/15"), UserName = "chrislyr93", Password = BCrypt.Net.BCrypt.HashPassword("chrislui", BCrypt.Net.BCrypt.GenerateSalt()), EMail = "chris_lui93@hotmail.com", Contact = "0126211640" },

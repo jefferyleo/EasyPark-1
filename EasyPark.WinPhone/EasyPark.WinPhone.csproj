@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
     <Compile Include="Bootstrap\LocationPluginBootstrap.cs" />
+    <Compile Include="Bootstrap\PictureChooserPluginBootstrap.cs" />
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -218,6 +219,12 @@
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Location.WindowsPhone">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Location.3.5.1\lib\wp8\Cirrious.MvvmCross.Plugins.Location.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser">
+      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.5.1\lib\wp8\Cirrious.MvvmCross.Plugins.PictureChooser.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Plugins.PictureChooser.WindowsPhone">
+      <HintPath>..\packages\MvvmCross.HotTuna.Plugin.PictureChooser.3.5.1\lib\wp8\Cirrious.MvvmCross.Plugins.PictureChooser.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="Cirrious.MvvmCross.Plugins.Visibility">
       <HintPath>..\packages\MvvmCross.HotTuna.Plugin.Visibility.3.5.1\lib\wp8\Cirrious.MvvmCross.Plugins.Visibility.dll</HintPath>

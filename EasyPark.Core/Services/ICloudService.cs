@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using EasyPark.Core.Models;
@@ -8,6 +9,7 @@ namespace EasyPark.Core.Services
 {
     public interface ICloudService
     {
+        User User { get; }
         MobileServiceUser CurrentUser { get; }
 
         // Web API
@@ -16,16 +18,13 @@ namespace EasyPark.Core.Services
 
         // User
         Task Update(User user);
+        Task<User> ReadUser(string id);
 
         // Car
         Task Insert(Car car);
-        Task<Car> Read(string id);
-        //Task<ObservableCollection<TodoItem>> ReadAll();
+        Task<Car> ReadCar(string id);
+        Task<List<Car>> ReadAllCar(string userId);
         Task Update(Car car);
         Task Delete(Car car);
-
-        // TodoItem
-        Task<ObservableCollection<TodoItem>> GetAll();
-        Task SaveAll(ObservableCollection<TodoItem> entities);
     }
 }

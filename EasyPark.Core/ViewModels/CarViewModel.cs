@@ -1,4 +1,7 @@
-﻿using Cirrious.MvvmCross.ViewModels;
+﻿using System;
+using System.IO;
+using Cirrious.MvvmCross.Plugins.PictureChooser;
+using Cirrious.MvvmCross.ViewModels;
 using EasyPark.Core.Models;
 using EasyPark.Core.Services;
 
@@ -8,10 +11,12 @@ namespace EasyPark.Core.ViewModels
         : MvxViewModel
     {
         private readonly ICloudService _cloudService;
+        private readonly IMvxPictureChooserTask _pictureChooserTask;
 
-        public CarViewModel(ICloudService cloudService)
+        public CarViewModel(ICloudService cloudService, IMvxPictureChooserTask pictureChooserTask)
         {
             _cloudService = cloudService;
+            _pictureChooserTask = pictureChooserTask;
             StatusText = "Easy Park";
             IsLoading = false;
             Action = Car != null ? Action.Update : Action.Create;
@@ -73,11 +78,11 @@ namespace EasyPark.Core.ViewModels
             set { _color = value; RaisePropertyChanged(() => Color); Update(); }
         }
 
-        private string _imageUrl;
-        public string ImageUrl
+        private byte[] _pictureBytes;
+        public byte[] PictureBytes
         {
-            get { return _imageUrl; }
-            set { _imageUrl = value; RaisePropertyChanged(() => ImageUrl); Update(); }
+            get { return _pictureBytes; }
+            set { _pictureBytes = value; RaisePropertyChanged(() => PictureBytes); }
         }
 
         private void Update()
@@ -88,8 +93,45 @@ namespace EasyPark.Core.ViewModels
                 _car.Model = Model;
                 _car.CarPlateNumber = CarPlateNumber;
                 _car.Color = Color;
-                _car.ImageUrl = ImageUrl;
+                _car.PictureBytes = PictureBytes;
             }
+        }
+
+        private void OnPicture(Stream stream)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            PictureBytes = memoryStream.ToArray();
+        }
+
+        MvxCommand _cameraPictureCommand;
+        public System.Windows.Input.ICommand CameraPictureCommand
+        {
+            get
+            {
+                _cameraPictureCommand = _cameraPictureCommand ?? new MvxCommand(DoCameraPictureCommand);
+                return _cameraPictureCommand;
+            }
+        }
+
+        private void DoCameraPictureCommand()
+        {
+            _pictureChooserTask.TakePicture(400, 100, OnPicture, () => { /* nothing to do */});
+        }
+
+        MvxCommand _galleryPictureCommand;
+        public System.Windows.Input.ICommand GalleryPictureCommand
+        {
+            get
+            {
+                _galleryPictureCommand = _galleryPictureCommand ?? new MvxCommand(DoGalleryPictureCommand);
+                return _galleryPictureCommand;
+            }
+        }
+
+        private void DoGalleryPictureCommand()
+        {
+            _pictureChooserTask.ChoosePictureFromLibrary(400, 100, OnPicture, () => { /* nothing to do */});
         }
 
         MvxCommand _insertUpdateCarCommand;
@@ -104,24 +146,31 @@ namespace EasyPark.Core.ViewModels
 
         private void DoInsertUpdateCarCommand()
         {
+            IsLoading = true;
             if (Action == Action.Create)
             {
+                StatusText = "Creating...";
                 _car = new Car()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     Manufacturer = Manufacturer,
                     Model = Model,
                     CarPlateNumber = CarPlateNumber,
                     Color = Color,
-                    ImageUrl = ImageUrl,
-                    UserId = _cloudService.CurrentUser.UserId
+                    PictureBytes = PictureBytes,
+                    UserId = _cloudService.User.Id
                 };
 
                 _cloudService.Insert(_car);
             }
             else
             {
+                StatusText = "Updating...";
                 _cloudService.Update(_car);
             }
+            StatusText = "Easy Park";
+            IsLoading = false;
+            Close(this);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace EasyPark.Core.ViewModels
             _placeService = placeService;
             _locationWatcher = locationWatcher;
             _locationWatcher.Start(new MvxLocationOptions(), OnLocation, OnError);
+            Update();
             StatusText = "Easy Park";
             IsLoading = false;
         }
@@ -42,25 +43,32 @@ namespace EasyPark.Core.ViewModels
             set { _isLoading = value; RaisePropertyChanged(() => IsLoading); }
         }
 
-        private int _currentPoint;
-        public int CurrentPoint
-        {
-            get { return _currentPoint; }
-            set { _currentPoint = value; RaisePropertyChanged(() => CurrentPoint); }
-        }
-
-        private string _ratio;
-        public string Ratio
-        {
-            get { return _ratio; }
-            set { _ratio = value; RaisePropertyChanged(() => Ratio); }
-        }
-
         private List<Car> _cars;
         public List<Car> Cars
         {
             get { return _cars; }
             set { _cars = value; RaisePropertyChanged(() => Cars); }
+        }
+
+        private int _parkPoint;
+        public int ParkPoint
+        {
+            get { return _parkPoint; }
+            set { _parkPoint = value; RaisePropertyChanged(() => ParkPoint); }
+        }
+
+        private int _successDealCount;
+        public int SuccessDealCount
+        {
+            get { return _successDealCount; }
+            set { _successDealCount = value; RaisePropertyChanged(() => SuccessDealCount); }
+        }
+
+        private int _failDealCount;
+        public int FailDealCount
+        {
+            get { return _failDealCount; }
+            set { _failDealCount = value; RaisePropertyChanged(() => FailDealCount); }
         }
 
         private double _lat;
@@ -89,6 +97,14 @@ namespace EasyPark.Core.ViewModels
         {
             get { return _results; }
             set { _results = value; RaisePropertyChanged(() => Results); }
+        }
+
+        private async void Update()
+        {
+            Cars = await _cloudService.ReadAllCar(_cloudService.User.Id);
+            ParkPoint = _cloudService.User.ParkPoint;
+            SuccessDealCount = _cloudService.User.SuccessDealCount;
+            FailDealCount = _cloudService.User.FailDealCount;
         }
 
         private void OnLocation(MvxGeoLocation location)
@@ -123,10 +139,10 @@ namespace EasyPark.Core.ViewModels
                 _timer.Dispose();
                 _timer = null;
             }
-            Update();
+            SearchUpdate();
         }
 
-        private void Update()
+        private void SearchUpdate()
         {
             StatusText = "Searching...";
             IsLoading = true;
