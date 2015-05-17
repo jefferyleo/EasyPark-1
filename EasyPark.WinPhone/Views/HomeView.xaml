@@ -42,6 +42,9 @@
                         <TextBlock FontSize="24" Text="{Binding Manufacturer}" />
                         <TextBlock FontSize="24" Text=" " />
                         <TextBlock FontSize="24" Text="{Binding Model}" />
+                        <TextBlock FontSize="24" Text=" (" />
+                        <TextBlock FontSize="24" Text="{Binding Color}" />
+                        <TextBlock FontSize="24" Text=")" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -87,7 +90,8 @@
                     </StackPanel>
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Cars}"
-                             ItemTemplate="{StaticResource CarTemplate}" />
+                             ItemTemplate="{StaticResource CarTemplate}"
+                             Foreground="{StaticResource AppForegroundBrush}" />
                 </Grid>
             </phone:PanoramaItem>
 
@@ -114,7 +118,8 @@
                     <ListBox Grid.Row="1"
                              ItemsSource="{Binding Results}"
                              ItemTemplate="{StaticResource PlaceSearchItemTemplate}"
-                             IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBool}}" />
+                             IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBool}}"
+                             Foreground="{StaticResource AppForegroundBrush}" />
                 </Grid>
             </phone:PanoramaItem>
         </phone:Panorama>
